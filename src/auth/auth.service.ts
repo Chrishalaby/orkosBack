@@ -55,9 +55,9 @@ export class AuthService {
   }
 
   public async signIn(signInDto: SignInDto): Promise<IUser> {
-    const { identity, password } = signInDto;
+    const { email, password } = signInDto;
     const user: User = await this.usersRepository.findOne({
-      where: [{email: identity}, {name: identity}],
+      where: [{email: email}, {name: email}],
     });
 
     if (!user) {
