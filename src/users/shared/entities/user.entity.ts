@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
+import { Event } from 'src/events/entities/event.entity';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -24,9 +25,11 @@ export class User {
   @Column()
   isEventOrganizer: boolean;
 
-
-  @Column({nullable: true})
+  @Column({ nullable: true })
   public salt: string;
+
+  @ManyToMany(() => Event, (event) => event.users)
+  events: Event[];
 
   public async validatePassword(password: string): Promise<boolean> {
     const hash: string = await bcrypt.hash(password, this.salt);

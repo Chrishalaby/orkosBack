@@ -1,7 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { EventsService } from './events.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
+import { Event } from './entities/event.entity';
+import { EventsService } from './events.service';
 
 @Controller('events')
 export class EventsController {
@@ -34,5 +43,18 @@ export class EventsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.eventsService.remove(+id);
+  }
+
+  @Post(':eventId/buy-ticket/:email')
+  async buyTicket(
+    @Param('email') email: string,
+    @Param('eventId') eventId: number,
+  ): Promise<void> {
+    await this.eventsService.buyTicket(email, eventId);
+  }
+
+  @Get('user/:email/tickets')
+  async getTicketsByEmail(@Param('email') email: string): Promise<Event[]> {
+    return await this.eventsService.getEventsByUser(email);
   }
 }

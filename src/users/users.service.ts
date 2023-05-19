@@ -7,7 +7,9 @@ import { User } from './shared/entities/user.entity';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(User) private usersRepository: Repository<User>) {}
+  constructor(
+    @InjectRepository(User) private usersRepository: Repository<User>,
+  ) {}
   create(createUserDto: CreateUserDto) {
     const newUser = this.usersRepository.create(createUserDto);
     return this.usersRepository.save(newUser);
@@ -23,14 +25,13 @@ export class UsersService {
     });
   }
 
-
   async update(id: number, updateUserDto: UpdateUserDto) {
-    const user = await this.usersRepository.findOne({where: {id}});
+    const user = await this.usersRepository.findOne({ where: { id } });
     return this.usersRepository.save({ ...user, ...updateUserDto });
   }
 
   async remove(id: number) {
-    const user = await this.usersRepository.findOne({where: {id}});
+    const user = await this.usersRepository.findOne({ where: { id } });
     return this.usersRepository.remove(user);
-    }
+  }
 }

@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { User } from 'src/users/shared/entities/user.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Event {
@@ -31,4 +38,12 @@ export class Event {
 
   @Column()
   location: string;
+
+  @ManyToMany(() => User, (user) => user.events)
+  @JoinTable({
+    name: 'user_events',
+    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'event_id', referencedColumnName: 'id' },
+  })
+  users: User[];
 }

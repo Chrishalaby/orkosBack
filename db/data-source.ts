@@ -1,16 +1,16 @@
-import { DataSource, DataSourceOptions } from "typeorm";
-import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
+import { DataSource } from 'typeorm';
+import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
 export const dataSourceOptions: PostgresConnectionOptions = {
   type: 'postgres',
-  database: 'card-back4',
+  database: 'orkos-back',
   host: 'localhost',
   port: 5432,
   username: 'postgres',
   password: 'root',
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/db/migrations/*.js'],
-  // synchronize: true,
+  synchronize: true,
 };
 
 const dataSource = new DataSource(dataSourceOptions);
